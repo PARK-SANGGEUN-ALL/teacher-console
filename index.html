@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>모두의 생기부 정성평가 상담 콘솔</title>
+<meta name="description" content="대학 학생부종합전형 가이드북 2개년 45종 1,526면을 상담용으로 색인한 도구. 10개 평가항목 루브릭, 주제별 지면 색인, 학과 사례, 대학별 원문 열람.">
+<meta name="theme-color" content="#14202A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="모두의 생기부 정성평가 상담 콘솔">
+<meta property="og:description" content="2026·2027학년도 대학 가이드북 45종 1,526면. 루브릭으로 진단하고 근거 지면을 바로 확인하세요.">
+<!-- ================================================================
+     배포 후 아래 세 줄의 주소를 실제 주소로 바꾸면 카카오톡·페이스북에서
+     미리보기 이미지가 확실하게 뜹니다. (예: https://mrkim.github.io/console/)
+     바꾸지 않아도 대부분 동작하지만, 절대주소가 가장 안전합니다.
+     ================================================================ -->
+<meta property="og:url" content="./">
+<meta property="og:image" content="og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="모두의 생기부 정성평가 상담 콘솔">
+<meta name="twitter:description" content="2026·2027학년도 대학 가이드북 45종 1,526면을 상담용으로 색인했습니다.">
+<meta name="twitter:image" content="og.png">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --paper:#EDF0F3; --card:#FFF; --ink:#14202A; --mute:#5C6B7A; --line:#D3DAE1;
+  --l1:#A8423C; --l2:#B7822C; --l3:#2E7D6B; --l4:#1B4F72;
+  --l1b:#F6E6E4; --l2b:#F8EEDC; --l3b:#E2F0EB; --l4b:#E3ECF3;
+  --c-rub:#0E7A6E; --c-topic:#B0651F; --c-case:#6A4C93; --c-uni:#1F5C7A;
+  --ac:var(--c-rub); --acb:#E5F1EF;
+  --hd:env(safe-area-inset-top,0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
+  font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1120px;margin:0 auto;padding:0 18px}
+
+header{background:var(--ink);color:#fff;padding:calc(20px + var(--hd)) 0 0}
+.eyebrow{font-size:11px;letter-spacing:.15em;color:#8FA3B2;font-weight:700}
+h1{font-size:clamp(20px,5.2vw,29px);font-weight:800;letter-spacing:-.025em;margin:7px 0 5px;line-height:1.25}
+.cr{font-size:12.5px;font-weight:800;letter-spacing:.06em;color:#C6D5DF}
+.lede{font-size:13px;color:#9FB3C0;margin:9px 0 15px;line-height:1.6;max-width:640px}
+.lede b{color:#E2ECF2;font-weight:700}
+.strip{display:flex;gap:3px;height:36px}
+.cell{flex:1;background:#25343F;border-radius:3px 3px 0 0;display:flex;align-items:flex-end;
+  justify-content:center;padding-bottom:4px;font-size:9.5px;color:#7C8F9D;font-weight:700;
+  transition:background .18s,color .18s;cursor:pointer;border:0;font-family:inherit}
+.cell.v1{background:var(--l1);color:#fff}.cell.v2{background:var(--l2);color:#fff}
+.cell.v3{background:var(--l3);color:#fff}.cell.v4{background:var(--l4);color:#fff}
+.stripgap{flex:0 0 11px}
+
+nav{background:var(--ink);position:sticky;top:0;z-index:40}
+nav .in{display:flex;overflow-x:auto;scrollbar-width:none;max-width:1120px;margin:0 auto;padding:0 18px}
+nav .in::-webkit-scrollbar{display:none}
+nav button{background:none;border:0;color:#8FA3B2;font:inherit;font-size:14px;font-weight:700;
+  padding:13px 16px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;
+  display:flex;align-items:center;gap:7px}
+nav button i{width:9px;height:9px;border-radius:2px;background:currentColor;opacity:.5;flex:0 0 auto}
+nav button[data-t=rub]{--tc:var(--c-rub)}nav button[data-t=topic]{--tc:var(--c-topic)}
+nav button[data-t=case]{--tc:var(--c-case)}nav button[data-t=uni]{--tc:var(--c-uni)}
+nav button i{background:var(--tc);opacity:1}
+nav button[aria-selected=true]{color:#fff;border-bottom-color:var(--tc)}
+
+.panel{display:none;padding:22px 0 90px}.panel.on{display:block}
+body[data-tab=rub]{--ac:var(--c-rub);--acb:#E5F1EF}
+body[data-tab=topic]{--ac:var(--c-topic);--acb:#F7EBDF}
+body[data-tab=case]{--ac:var(--c-case);--acb:#EEE9F5}
+body[data-tab=uni]{--ac:var(--c-uni);--acb:#E4EDF3}
+
+.intro{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--ac);
+  border-radius:8px;padding:13px 16px;font-size:13.2px;color:var(--mute);margin-bottom:16px;line-height:1.65}
+.intro b{color:var(--ink)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.picker{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 15px 12px;margin-bottom:16px}
+.pickhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:11px}
+.pickhead b{font-size:13px;font-weight:800}
+.pickhead b span{font-weight:600;color:var(--mute);margin-left:7px}
+.pickhead input{margin-left:auto;font:inherit;font-size:13.5px;height:36px;width:190px;
+  border:1px solid var(--line);border-radius:8px;background:#F8FAFB;padding:0 12px;color:var(--ink)}
+.pickhead input:focus{outline:none;border-color:var(--ac);background:#fff;box-shadow:0 0 0 3px var(--acb)}
+.picker .chips{margin-bottom:0;gap:7px}
+.picker .chip{padding:6px 13px;display:inline-flex;align-items:baseline;gap:6px}
+.chip .yrs{font-size:9.5px;font-weight:800;letter-spacing:.03em;color:#93A3AE;
+  font-variant-numeric:tabular-nums}
+.chip[aria-pressed=true] .yrs{color:rgba(255,255,255,.75)}
+.chip.two .yrs{color:var(--ac)}
+.chip.two[aria-pressed=true] .yrs{color:rgba(255,255,255,.85)}
+.pickempty{font-size:13.5px;color:var(--mute);padding:10px 2px 4px}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -18px 14px;padding:0 18px 4px}
+.chips.scroll::-webkit-scrollbar{display:none}
+.chip{font:inherit;font-size:13.5px;border:1px solid var(--line);background:#fff;border-radius:20px;
+  padding:7px 15px;cursor:pointer;color:var(--mute);white-space:nowrap}
+.chip[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:700}
+.yr{display:inline-flex;gap:0;border:1px solid var(--line);border-radius:7px;overflow:hidden;background:#fff}
+.yr button{font:inherit;font-size:13px;font-weight:700;border:0;background:none;color:var(--mute);
+  padding:8px 13px;cursor:pointer;border-left:1px solid var(--line)}
+.yr button:first-child{border-left:0}
+.yr button[aria-pressed=true]{background:var(--ac);color:#fff}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+button.act{font:inherit;font-size:13.5px;font-weight:600;border:1px solid var(--line);background:#fff;
+  color:var(--ink);border-radius:8px;padding:0 15px;height:40px;cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;transition:.14s}
+button.act:hover{border-color:var(--ac);color:var(--ac)}
+button.act.pri{background:var(--ac);border-color:var(--ac);color:#fff}
+button.act.pri:hover{filter:brightness(1.12);color:#fff}
+button.act:disabled{opacity:.42;cursor:default;border-color:var(--line);color:var(--mute)}
+.hint{font-size:12.5px;color:var(--mute)}
+
+/* 상담 설정 카드 */
+.setup{background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:15px 16px 14px;margin-bottom:16px;box-shadow:0 1px 2px rgba(20,32,42,.04)}
+.fields{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:12px}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld>span{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:var(--mute)}
+.fld input,.fld select{font:inherit;font-size:14px;font-weight:500;width:100%;height:42px;
+  border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);
+  padding:0 12px;appearance:none;-webkit-appearance:none;cursor:pointer}
+.fld input{cursor:text;font-weight:600}
+.fld input::placeholder{font-weight:400;color:#9AA8B4}
+.fld select{padding-right:34px;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' stroke='%235C6B7A' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center}
+.fld select:disabled{background-color:#F5F7F8;color:#9AA8B4;cursor:default}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px var(--acb)}
+.fld select.set{border-color:var(--ac);color:var(--ac);font-weight:700}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+  margin-top:15px;padding-top:14px;border-top:1px solid #EDF1F3}
+.acts .div{width:1px;height:22px;background:var(--line);margin:0 3px}
+.act.ghost{border-color:transparent;color:var(--mute);padding-left:11px;padding-right:11px}
+.act.ghost:hover{border-color:transparent;color:var(--l1);background:#FAEFEE}
+.acts .sp{flex:1}
+.msg{font-size:12.5px;font-weight:700;color:var(--ac);opacity:0;transition:opacity .2s}
+.msg.on{opacity:1}
+.note{font-size:12.8px;color:var(--mute);margin:16px 2px 0;line-height:1.65}
+.sect{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--ac);margin:20px 0 9px}
+
+.rows{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.row{display:flex;align-items:center;gap:10px;padding:12px 15px;border-top:1px solid #EDF1F3;
+  font-size:14.5px;width:100%;background:none;border-left:0;border-right:0;border-bottom:0;
+  font-family:inherit;text-align:left;cursor:pointer;color:inherit}
+.row:first-child{border-top:0}
+.row:hover{background:#F5F8F9}
+.row .u{font-weight:700;flex:0 0 auto;min-width:92px}
+.row .d{flex:1}
+.row .k,.row .y{font-size:11px;color:var(--mute);border:1px solid var(--line);border-radius:3px;
+  padding:1px 6px;flex:0 0 auto;font-weight:700}
+.row .y{background:var(--acb);border-color:transparent;color:var(--ac)}
+.row .p{font-weight:800;color:var(--ac);font-variant-numeric:tabular-nums;flex:0 0 auto}
+.pglist{display:flex;gap:5px;flex-wrap:wrap;flex:1}
+.pgbtn{font:inherit;font-size:12.5px;font-weight:700;color:var(--ac);background:var(--acb);
+  border:1px solid transparent;border-radius:5px;padding:3px 8px;cursor:pointer;font-variant-numeric:tabular-nums}
+.pgbtn:hover{background:var(--ac);color:#fff}
+.empty{padding:28px 16px;text-align:center;color:var(--mute);font-size:14px}
+
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(146px,1fr))}
+.th{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:pointer;
+  padding:0;font:inherit;text-align:left;display:block;transition:border-color .15s,transform .1s}
+.th:hover{border-color:var(--ac)}.th:active{transform:scale(.985)}
+.th img{width:100%;display:block;aspect-ratio:1/1.32;object-fit:cover;object-position:top;background:#E4E9ED}
+.th .cap{padding:7px 9px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.th .pg{font-size:12px;font-weight:800;color:var(--ac);font-variant-numeric:tabular-nums}
+.tag{font-size:10px;color:var(--mute);border:1px solid var(--line);border-radius:3px;padding:1px 5px;line-height:1.5}
+.tag.case{background:var(--acb);border-color:transparent;color:var(--ac);font-weight:700}
+.jump{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center;
+  background:#fff;border:1px solid var(--line);border-radius:8px;padding:13px 15px}
+.jump .jl{font-size:12.5px;font-weight:800;white-space:nowrap}
+.jump .jp{display:flex;gap:5px;flex-wrap:wrap}
+.unibar{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.unibar b{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.unibar span{font-size:13px;color:var(--mute)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:14px;overflow:hidden}
+.chead{display:flex;align-items:baseline;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);
+  background:#F7F9FA;flex-wrap:wrap}
+.chead b{font-size:15.5px;font-weight:800}
+.chead>span{font-size:12px;color:var(--mute)}
+.avg{margin-left:auto;font-size:12px;font-weight:700;color:var(--ac)}
+.item{padding:15px 16px;border-top:1px solid #EDF1F3}
+.item:first-child{border-top:0}
+.q{display:flex;gap:9px;align-items:baseline;margin-bottom:7px;flex-wrap:wrap}
+.code{font-size:10.5px;font-weight:800;color:#fff;background:var(--ac);border-radius:3px;padding:2px 5px;letter-spacing:.04em}
+.qname{font-weight:700;font-size:14.5px}
+.qtext{color:var(--mute);font-size:13px;margin-bottom:10px}
+.evb{margin-left:auto;font:inherit;font-size:11.5px;font-weight:700;color:var(--ac);
+  background:var(--acb);border:1px solid transparent;border-radius:5px;padding:3px 9px;cursor:pointer;white-space:nowrap}
+.evb:hover{background:var(--ac);color:#fff}
+.lv{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.lv label{border:1px solid var(--line);border-radius:6px;padding:9px 10px;cursor:pointer;
+  font-size:12.2px;line-height:1.45;color:var(--mute);background:#fff;transition:.14s}
+.lv input{position:absolute;opacity:0;pointer-events:none}
+.lv b{display:block;font-size:11px;font-weight:800;letter-spacing:.05em;margin-bottom:3px}
+.lv label:nth-child(1) b{color:var(--l1)}.lv label:nth-child(2) b{color:var(--l2)}
+.lv label:nth-child(3) b{color:var(--l3)}.lv label:nth-child(4) b{color:var(--l4)}
+.lv label.sel{color:var(--ink);font-weight:500}
+.lv label:nth-child(1).sel{background:var(--l1b);border-color:var(--l1)}
+.lv label:nth-child(2).sel{background:var(--l2b);border-color:var(--l2)}
+.lv label:nth-child(3).sel{background:var(--l3b);border-color:var(--l3)}
+.lv label:nth-child(4).sel{background:var(--l4b);border-color:var(--l4)}
+.lv label:focus-within{outline:2px solid var(--ac);outline-offset:1px}
+.out{background:var(--ink);color:#DCE6EC;border-radius:8px;padding:17px 18px;margin-bottom:14px}
+.out h3{margin:0 0 10px;font-size:12px;letter-spacing:.1em;color:#8FA3B2;font-weight:800}
+.out p{margin:0 0 7px;font-size:14px;line-height:1.7}
+.out .lbl{color:#fff;font-weight:700}
+.out ul{margin:6px 0 0;padding-left:17px}.out li{margin-bottom:6px;font-size:13.6px}
+.out .pgbtn{background:#233240;color:#BBD3DC;margin:2px 3px 2px 0}
+.out .pgbtn:hover{background:#31465A;color:#fff}
+.bars{display:grid;gap:7px;margin:2px 0 14px}
+.bar{display:grid;grid-template-columns:74px 1fr 34px;gap:10px;align-items:center;font-size:12.5px}
+.bar .tr{display:block;height:9px;background:#2A3A46;border-radius:5px;overflow:hidden}
+.bar .fl{display:block;height:100%;border-radius:5px;transition:width .3s}
+.bar .vn{font-variant-numeric:tabular-nums;color:#9FB3C0;font-size:11.5px;text-align:right}
+.qa{margin:6px 0 0;padding-left:17px}
+.qa li{margin-bottom:8px;font-size:13.6px}
+.qa .who{color:#8FA3B2;font-size:11px;font-weight:800;letter-spacing:.04em;display:block;margin-bottom:1px}
+.warn{background:var(--l1);color:#fff;border-radius:6px;padding:11px 14px;font-size:13.5px;font-weight:600;margin-bottom:12px}
+
+.vw{position:fixed;inset:0;z-index:100;background:#0B1218;display:none;flex-direction:column;padding-top:var(--hd)}
+.vw.on{display:flex}
+.vwbar{display:flex;align-items:center;gap:9px;padding:10px 14px;color:#fff;flex:0 0 auto}
+.vwbar b{font-size:15px;font-weight:800}
+.vwbar .pgn{font-size:12.5px;color:#9FB3C0;font-variant-numeric:tabular-nums}
+.vwbar .sp{flex:1}
+.vwbtn{background:rgba(255,255,255,.12);border:0;color:#fff;font:inherit;font-size:14px;font-weight:700;
+  border-radius:7px;width:42px;height:42px;cursor:pointer;flex:0 0 auto}
+.vwbtn:disabled{opacity:.3;cursor:default}
+.vwbtn:hover:not(:disabled){background:rgba(255,255,255,.24)}
+.vwbtn.wide{width:auto;padding:0 14px}
+.vwstage{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;
+  padding:0 10px 14px;-webkit-overflow-scrolling:touch}
+.vwstage img{max-width:100%;width:auto;border-radius:4px;background:#fff;display:block;cursor:zoom-in}
+.vwstage img.zoom{max-width:none;width:1500px;cursor:zoom-out}
+.vwfail{color:#C6D5DF;text-align:center;padding:50px 24px;font-size:14.5px;line-height:1.8;max-width:460px}
+.vwtags{display:flex;gap:5px;flex-wrap:wrap;padding:0 14px 10px}
+.vwtags .tag{color:#9FB3C0;border-color:#3B4C58;background:transparent}
+.vwtags .tag.case{border-color:#4E6E88;color:#A9C8DF}
+
+footer{background:var(--ink);color:#7C8F9D;font-size:12.5px;padding:22px 0 calc(24px + env(safe-area-inset-bottom,0px));line-height:1.7}
+footer b{color:#C6D5DF}
+
+@media (max-width:760px){
+  .lv{grid-template-columns:1fr 1fr}
+  .fields{grid-template-columns:1fr 1fr}
+  .fld:first-child{grid-column:1 / -1}
+  .acts .sp{flex:1 0 100%;height:0}
+  .acts .div{display:none}
+  .setup{padding:13px 13px 12px}
+  button.act{font-size:13px;padding:0 13px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(114px,1fr));gap:9px}
+  .row{flex-wrap:wrap;gap:7px 9px;padding:12px 14px}
+  .pickhead input{margin-left:0;width:100%}
+  .picker{padding:13px 12px 11px}
+  .row .d{flex:1 0 100%;order:5}
+  .strip{height:13px}.cell{font-size:0;padding:0}
+  nav button{padding:12px 13px;font-size:13.5px}
+  .vwstage{padding:0 5px 12px}
+}
+@media (min-width:1100px){ .grid{grid-template-columns:repeat(auto-fill,minmax(162px,1fr))} }
+@media print{
+  header,nav,.tools,.chips,.vw,footer,.intro{display:none!important}
+  body{background:#fff}.card,.rows{break-inside:avoid}
+  .panel{display:none!important}.panel#rub{display:block!important}
+  .out{background:#fff;color:#000;border:1px solid #000}
+  .out h3,.out .lbl{color:#000}.bar .tr{background:#DDD}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body data-tab="rub">
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">대학 학생부종합전형 가이드북 2개년 45종 · 1,526면</div>
+    <h1>모두의 생기부 정성평가 상담 콘솔</h1>
+    <div class="cr">Copyright@All Teachers</div>
+    <p class="lede"><b>2027학년도</b> 가이드북 20종의 우수 평가사례와 <b>2026학년도</b> 가이드북 25종 전문을 함께 담았습니다.
+      두 해를 나란히 두면 대학이 무엇을 꾸준히 보는지, 무엇이 달라졌는지가 드러납니다. 색인은 모두 두 해가 구분되어 표시됩니다.</p>
+    <div class="strip" id="strip"></div>
+  </div>
+</header>
+
+<nav><div class="in">
+  <button aria-selected="true" data-t="rub"><i></i>평가 루브릭</button>
+  <button aria-selected="false" data-t="topic"><i></i>주제별 색인</button>
+  <button aria-selected="false" data-t="case"><i></i>학과 사례</button>
+  <button aria-selected="false" data-t="uni"><i></i>대학별 보기</button>
+</div></nav>
+
+<div class="wrap">
+
+<section class="panel on" id="rub">
+  <div class="intro">10개 항목을 <b>미흡·보통·우수·탁월</b> 네 단계로 표시하면 진단 요약, 지금 물어볼 질문, 학생에게 건넬 과제가 한 번에 만들어집니다.
+    판단이 애매한 항목은 <b>근거 지면</b>을 눌러 대학이 그 항목을 어떻게 설명했는지 바로 확인하세요.</div>
+  <div class="setup">
+    <div class="fields">
+      <label class="fld"><span>학생</span><input id="nm" placeholder="이름 또는 학번"></label>
+      <label class="fld"><span>지망 대학</span><select id="goal"></select></label>
+      <label class="fld"><span>저장된 상담</span><select id="saved"></select></label>
+    </div>
+    <div class="acts">
+      <button class="act pri" id="save">이 상담 저장</button>
+      <span class="div"></span>
+      <button class="act" id="copy">상담 요약 복사</button>
+      <button class="act" id="copyst">학생용 과제 복사</button>
+      <button class="act" id="print">인쇄</button>
+      <span class="sp"></span>
+      <span class="msg" id="status"></span>
+      <button class="act ghost" id="reset">초기화</button>
+    </div>
+  </div>
+  <div id="warnbox"></div>
+  <div class="out" id="out"></div>
+  <div id="rubric"></div>
+  <p class="note">단계 기준은 대학 가이드북에 공통으로 나타나는 평가요소(학업역량·진로역량·공동체역량)를 상담용으로 정리한 것입니다.
+    역량별 반영비율과 세부 명칭은 대학마다 다르므로 최종 판단은 지망 대학의 원문 지면을 확인하세요.</p>
+</section>
+
+<section class="panel" id="topic">
+  <div class="intro">상담 중 가장 자주 쓰는 화면입니다. 확인하려는 항목을 고르면 45종 가이드북에서 그 항목을 설명한 지면이 대학별로 모입니다.
+    <b>학생에게 근거를 보여주며 이야기할 때</b> 쓰세요.</div>
+  <div class="chips" id="tfilters"></div>
+  <div class="tools"><span class="yr" id="tyr"></span><span class="hint" id="tcount"></span></div>
+  <div class="rows" id="toprows"></div>
+</section>
+
+<section class="panel" id="case">
+  <div class="intro">지망 학과와 같은 계열의 합격 사례가 실린 지면입니다. 학생의 활동이 어느 정도 수준인지 견주어 볼 때 쓰세요.</div>
+  <div class="chips" id="kfilters"></div>
+  <div class="tools"><input class="nm" id="q" placeholder="학과명 · 대학명 검색" style="width:230px">
+    <span class="yr" id="cyr"></span><span class="hint" id="ccount"></span></div>
+  <div class="rows" id="caserows"></div>
+</section>
+
+<section class="panel" id="uni">
+  <div class="intro">학생이 특정 대학을 말했을 때 여기서 확인하세요. 대학을 고르면 평가 항목별 지면과 합격 사례, 전체 지면이 한 화면에 나옵니다.</div>
+  <div class="picker">
+    <div class="pickhead">
+      <b id="ucount"></b>
+      <input id="ufind" placeholder="대학 이름 검색" autocomplete="off">
+    </div>
+    <div class="chips" id="unichips"></div>
+    <div class="pickempty" id="uempty" hidden>검색과 일치하는 대학이 없습니다</div>
+  </div>
+  <div class="tools"><span class="yr" id="uyr"></span></div>
+  <div class="unibar" id="unibar"></div>
+  <div id="unitopics"></div>
+  <div id="unicases"></div>
+  <div class="sect">전체 지면 — 눌러서 크게 보기</div>
+  <div class="grid" id="unigrid"></div>
+</section>
+
+</div>
+
+<footer><div class="wrap">
+  <b>모두의 생기부 정성평가 상담 콘솔</b> · Copyright@All Teachers<br>
+  수록 자료의 저작권은 각 대학에 있습니다. 교내 진학 상담 목적으로만 이용하세요.
+</div></footer>
+
+<div class="vw" id="vw" role="dialog" aria-modal="true" aria-label="지면 보기">
+  <div class="vwbar">
+    <b id="vwuni"></b><span class="pgn" id="vwpg"></span>
+    <span class="sp"></span>
+    <button class="vwbtn" id="vwprev" aria-label="이전 지면">‹</button>
+    <button class="vwbtn" id="vwnext" aria-label="다음 지면">›</button>
+    <button class="vwbtn wide" id="vwclose">닫기</button>
+  </div>
+  <div class="vwtags" id="vwtags"></div>
+  <div class="vwstage" id="vwstage"></div>
+</div>
+<script>
+const DATA = {"unis": {"가톨릭대": {"2026": {"slug": "u01", "pages": 168}}, "강원대": {"2027": {"slug": "u02", "pages": 9}}, "건국대": {"2026": {"slug": "u03", "pages": 44}}, "경기대": {"2027": {"slug": "u04", "pages": 13}}, "경북대": {"2026": {"slug": "u05", "pages": 31}}, "경희대": {"2027": {"slug": "u06", "pages": 20}, "2026": {"slug": "u06", "pages": 52}}, "광운대": {"2026": {"slug": "u07", "pages": 48}}, "국민대": {"2027": {"slug": "u08", "pages": 4}, "2026": {"slug": "u08", "pages": 52}}, "단국대": {"2027": {"slug": "u09", "pages": 3}, "2026": {"slug": "u09", "pages": 48}}, "덕성여대": {"2026": {"slug": "u10", "pages": 23}}, "동국대": {"2027": {"slug": "u11", "pages": 33}, "2026": {"slug": "u11", "pages": 88}}, "동덕여대": {"2026": {"slug": "u12", "pages": 8}}, "명지대": {"2027": {"slug": "u13", "pages": 4}, "2026": {"slug": "u13", "pages": 46}}, "부산대": {"2027": {"slug": "u14", "pages": 5}}, "서울과학기술대": {"2027": {"slug": "u15", "pages": 5}, "2026": {"slug": "u15", "pages": 64}}, "서울대": {"2026": {"slug": "u16", "pages": 72}}, "서울시립대": {"2027": {"slug": "u17", "pages": 5}}, "서울여대": {"2026": {"slug": "u18", "pages": 52}}, "성신여대": {"2027": {"slug": "u19", "pages": 8}, "2026": {"slug": "u19", "pages": 87}}, "세종대": {"2027": {"slug": "u20", "pages": 2}, "2026": {"slug": "u20", "pages": 40}}, "숭실대": {"2027": {"slug": "u21", "pages": 9}, "2026": {"slug": "u21", "pages": 54}}, "연세대": {"2027": {"slug": "u22", "pages": 3}}, "이화여자대": {"2027": {"slug": "u23", "pages": 7}, "2026": {"slug": "u23", "pages": 23}}, "인천대": {"2026": {"slug": "u24", "pages": 48}}, "인하대": {"2027": {"slug": "u25", "pages": 14}, "2026": {"slug": "u25", "pages": 31}}, "전남대": {"2026": {"slug": "u26", "pages": 28}}, "중앙대": {"2027": {"slug": "u27", "pages": 17}, "2026": {"slug": "u27", "pages": 64}}, "한국기술교육대": {"2027": {"slug": "u28", "pages": 28}, "2026": {"slug": "u28", "pages": 45}}, "한국외국어대": {"2027": {"slug": "u29", "pages": 9}}, "한양대": {"2026": {"slug": "u30", "pages": 48}}, "한양대(에리카)": {"2027": {"slug": "u31", "pages": 4}, "2026": {"slug": "u31", "pages": 60}}}, "cases": [{"uni": "강원대", "year": "2027", "dept": "영어영문학과", "page": 4, "kye": "인문"}, {"uni": "강원대", "year": "2027", "dept": "의생명시스템과학과", "page": 7, "kye": "자연"}, {"uni": "경기대", "year": "2027", "dept": "건축학과", "page": 1, "kye": "공학"}, {"uni": "경기대", "year": "2027", "dept": "바이오융합학부", "page": 5, "kye": "자연"}, {"uni": "경기대", "year": "2027", "dept": "무역학과", "page": 12, "kye": "사회"}, {"uni": "경희대", "year": "2026", "dept": "ospitality·관광학과", "page": 17, "kye": "사회"}, {"uni": "경희대", "year": "2026", "dept": "인문계열", "page": 18, "kye": "인문"}, {"uni": "경희대", "year": "2026", "dept": "화학공학과", "page": 24, "kye": "공학"}, {"uni": "경희대", "year": "2027", "dept": "약과학과", "page": 2, "kye": "의약"}, {"uni": "경희대", "year": "2027", "dept": "경영회계계열", "page": 6, "kye": "사회"}, {"uni": "경희대", "year": "2027", "dept": "의상학과", "page": 13, "kye": "예체능"}, {"uni": "동국대", "year": "2026", "dept": "열린전공학부", "page": 40, "kye": "공학"}, {"uni": "동국대", "year": "2026", "dept": "건설환경공학과", "page": 49, "kye": "공학"}, {"uni": "동국대", "year": "2026", "dept": "의생명공학과", "page": 57, "kye": "공학"}, {"uni": "동국대", "year": "2026", "dept": "문화유산학과", "page": 60, "kye": "인문"}, {"uni": "동국대", "year": "2026", "dept": "정치외교학전공", "page": 63, "kye": "사회"}, {"uni": "동국대", "year": "2027", "dept": "경찰행정학부", "page": 2, "kye": "사회"}, {"uni": "동국대", "year": "2027", "dept": "컴퓨터·AI학부", "page": 4, "kye": "공학"}, {"uni": "동국대", "year": "2027", "dept": "영화영상학과", "page": 6, "kye": "예체능"}, {"uni": "동국대", "year": "2027", "dept": "일본학과", "page": 15, "kye": "인문"}, {"uni": "동국대", "year": "2027", "dept": "광고홍보학과", "page": 19, "kye": "사회"}, {"uni": "동국대", "year": "2027", "dept": "화공생물공학과", "page": 21, "kye": "공학"}, {"uni": "동국대", "year": "2027", "dept": "의료인공지능공학과", "page": 22, "kye": "의약"}, {"uni": "동국대", "year": "2027", "dept": "정치외교학전공", "page": 24, "kye": "사회"}, {"uni": "동국대", "year": "2027", "dept": "생명과학과", "page": 25, "kye": "자연"}, {"uni": "동국대", "year": "2027", "dept": "미디어커뮤니케이션학전공", "page": 27, "kye": "사회"}, {"uni": "명지대", "year": "2026", "dept": "행정학전공", "page": 19, "kye": "사회"}, {"uni": "명지대", "year": "2027", "dept": "경영정보학과", "page": 1, "kye": "사회"}, {"uni": "명지대", "year": "2027", "dept": "융합에너지학전공", "page": 3, "kye": "공학"}, {"uni": "성신여대", "year": "2026", "dept": "창의융합학부", "page": 64, "kye": "기타"}, {"uni": "성신여대", "year": "2026", "dept": "자유전공", "page": 64, "kye": "기타"}, {"uni": "성신여대", "year": "2026", "dept": "첨단분야전공", "page": 66, "kye": "기타"}, {"uni": "성신여대", "year": "2026", "dept": "예체능전공", "page": 69, "kye": "기타"}, {"uni": "성신여대", "year": "2026", "dept": "경영학과", "page": 71, "kye": "사회"}, {"uni": "성신여대", "year": "2026", "dept": "AI융합학부", "page": 73, "kye": "공학"}, {"uni": "숭실대", "year": "2026", "dept": "경상계열", "page": 23, "kye": "기타"}, {"uni": "숭실대", "year": "2026", "dept": "글로벌통상학과", "page": 23, "kye": "사회"}, {"uni": "숭실대", "year": "2026", "dept": "자연계열", "page": 24, "kye": "자연"}, {"uni": "숭실대", "year": "2026", "dept": "의생명시스템학부", "page": 24, "kye": "자연"}, {"uni": "숭실대", "year": "2026", "dept": "컴퓨터학부", "page": 33, "kye": "공학"}, {"uni": "숭실대", "year": "2027", "dept": "신소재공학과", "page": 1, "kye": "공학"}, {"uni": "숭실대", "year": "2027", "dept": "사회복지학부", "page": 2, "kye": "사회"}, {"uni": "숭실대", "year": "2027", "dept": "물리학과", "page": 3, "kye": "자연"}, {"uni": "숭실대", "year": "2027", "dept": "글로벌미디어학부", "page": 7, "kye": "사회"}, {"uni": "숭실대", "year": "2027", "dept": "국어국문학과", "page": 8, "kye": "인문"}, {"uni": "숭실대", "year": "2027", "dept": "벤처중소기업학과", "page": 9, "kye": "사회"}, {"uni": "이화여자대", "year": "2026", "dept": "심리학과", "page": 16, "kye": "사회"}, {"uni": "인하대", "year": "2026", "dept": "인공지능공학과", "page": 12, "kye": "공학"}, {"uni": "인하대", "year": "2026", "dept": "경영학부", "page": 13, "kye": "사회"}, {"uni": "인하대", "year": "2026", "dept": "파이낸스경영학과", "page": 13, "kye": "사회"}, {"uni": "인하대", "year": "2026", "dept": "상경계열", "page": 13, "kye": "기타"}, {"uni": "인하대", "year": "2026", "dept": "에너지자원공학과", "page": 14, "kye": "공학"}, {"uni": "인하대", "year": "2026", "dept": "소비자학과", "page": 14, "kye": "기타"}, {"uni": "인하대", "year": "2026", "dept": "컴퓨터공학과", "page": 15, "kye": "공학"}, {"uni": "인하대", "year": "2026", "dept": "영미유럽인문융합학부", "page": 16, "kye": "인문"}, {"uni": "인하대", "year": "2027", "dept": "기계공학과", "page": 1, "kye": "공학"}, {"uni": "인하대", "year": "2027", "dept": "경제학과", "page": 3, "kye": "사회"}, {"uni": "인하대", "year": "2027", "dept": "생명과학과", "page": 5, "kye": "자연"}, {"uni": "인하대", "year": "2027", "dept": "사회복지학과", "page": 6, "kye": "사회"}, {"uni": "인하대", "year": "2027", "dept": "공간정보공학과", "page": 7, "kye": "공학"}, {"uni": "인하대", "year": "2027", "dept": "신소재공학과", "page": 8, "kye": "공학"}, {"uni": "인하대", "year": "2027", "dept": "정치외교학과", "page": 10, "kye": "사회"}, {"uni": "중앙대", "year": "2026", "dept": "인문계열", "page": 16, "kye": "인문"}, {"uni": "중앙대", "year": "2026", "dept": "자연계열", "page": 16, "kye": "자연"}, {"uni": "중앙대", "year": "2026", "dept": "물리학과", "page": 33, "kye": "자연"}, {"uni": "중앙대", "year": "2026", "dept": "화학공학과", "page": 34, "kye": "공학"}, {"uni": "중앙대", "year": "2026", "dept": "경영학부", "page": 36, "kye": "사회"}, {"uni": "중앙대", "year": "2026", "dept": "생명과학과", "page": 38, "kye": "자연"}, {"uni": "중앙대", "year": "2026", "dept": "심리학과", "page": 40, "kye": "사회"}, {"uni": "중앙대", "year": "2027", "dept": "교육학과", "page": 2, "kye": "사회"}, {"uni": "중앙대", "year": "2027", "dept": "산업보안학과", "page": 5, "kye": "공학"}, {"uni": "중앙대", "year": "2027", "dept": "기계공학부", "page": 9, "kye": "공학"}, {"uni": "중앙대", "year": "2027", "dept": "전자전기공학부", "page": 13, "kye": "공학"}, {"uni": "한국기술교육대", "year": "2026", "dept": "기계공학부", "page": 19, "kye": "공학"}, {"uni": "한국기술교육대", "year": "2026", "dept": "메카트로닉스공학부", "page": 21, "kye": "공학"}, {"uni": "한국기술교육대", "year": "2026", "dept": "디자인공학과", "page": 23, "kye": "예체능"}, {"uni": "한국기술교육대", "year": "2026", "dept": "건축공학과", "page": 25, "kye": "공학"}, {"uni": "한국기술교육대", "year": "2026", "dept": "에너지신소재화학공학부", "page": 29, "kye": "공학"}, {"uni": "한국기술교육대", "year": "2026", "dept": "통신공학부", "page": 33, "kye": "공학"}, {"uni": "한국기술교육대", "year": "2026", "dept": "컴퓨터공학부", "page": 36, "kye": "공학"}, {"uni": "한국기술교육대", "year": "2026", "dept": "산업경영학부", "page": 39, "kye": "공학"}, {"uni": "한국기술교육대", "year": "2026", "dept": "고용서비스정책학과", "page": 41, "kye": "기타"}, {"uni": "한국외국어대", "year": "2027", "dept": "국제무역학과", "page": 4, "kye": "사회"}, {"uni": "한양대(에리카)", "year": "2026", "dept": "LIONS자율전공학부", "page": 22, "kye": "공학"}, {"uni": "한양대(에리카)", "year": "2026", "dept": "전자공학부", "page": 24, "kye": "공학"}, {"uni": "한양대(에리카)", "year": "2026", "dept": "경제학부", "page": 26, "kye": "사회"}, {"uni": "한양대(에리카)", "year": "2027", "dept": "광고홍보학과", "page": 3, "kye": "사회"}], "topics": {"학업역량·성취도": {"경희대": {"2027": [1, 3, 5, 7, 8], "2026": [9, 11, 12, 13, 14, 15, 16, 18, 34]}, "국민대": {"2027": [2, 4], "2026": [10]}, "단국대": {"2027": [1, 3], "2026": [12, 22, 24]}, "동국대": {"2027": [14, 20, 23, 24, 26, 31], "2026": [17, 19, 20, 23, 28, 42, 44, 50, 56, 59, 60, 62, 69]}, "명지대": {"2027": [3], "2026": [3, 11, 24, 27, 28, 29, 40]}, "부산대": {"2027": [1, 3, 4]}, "서울과학기술대": {"2027": [4], "2026": [13, 36, 45, 46]}, "서울시립대": {"2027": [1, 2]}, "세종대": {"2027": [2], "2026": [14, 15, 17, 20, 21]}, "숭실대": {"2027": [7, 8, 9], "2026": [37]}, "연세대": {"2027": [2, 3]}, "인하대": {"2027": [1, 2, 11, 12, 13], "2026": [8, 9, 11, 12, 19, 20]}, "중앙대": {"2027": [10, 14, 15], "2026": [20, 21, 25, 26, 27, 28, 33, 35, 37, 39, 41]}, "한국외국어대": {"2027": [6]}, "한양대(에리카)": {"2027": [2], "2026": [19, 20, 21, 23, 30, 38]}, "가톨릭대": {"2026": [34, 35, 37, 40, 41, 42, 43]}, "건국대": {"2026": [14, 15, 16, 17]}, "광운대": {"2026": [16, 17, 34]}, "덕성여대": {"2026": [11, 12, 15, 22]}, "동덕여대": {"2026": [4]}, "서울대": {"2026": [12, 15, 18, 19, 21, 22, 24, 39]}, "서울여대": {"2026": [13, 16, 17, 18, 19, 20, 21, 22, 23, 27, 28, 32]}, "성신여대": {"2026": [24, 25, 26, 27, 28, 40, 41, 45, 47, 49, 57, 58, 59, 78, 84], "2027": [6, 8]}, "이화여자대": {"2026": [7, 8, 9, 10, 19]}, "인천대": {"2026": [14]}, "전남대": {"2026": [6, 11, 18]}, "한국기술교육대": {"2026": [8]}, "경북대": {"2026": [9]}, "한양대": {"2026": [12, 14, 36]}}, "탐구력·세특": {"강원대": {"2027": [8]}, "경기대": {"2027": [6, 9]}, "경희대": {"2027": [1, 5, 7, 8, 12, 19], "2026": [9, 14, 16, 19, 25, 27, 34, 35]}, "국민대": {"2027": [1, 2, 3, 4], "2026": [31, 35, 42, 46, 47]}, "단국대": {"2027": [3], "2026": [22, 24, 27, 33]}, "동국대": {"2027": [1, 2, 8, 9, 15, 19, 23, 25, 30, 31, 33], "2026": [19, 23, 29, 30, 33, 38, 41, 42, 43, 44, 50, 51, 54, 59, 67, 68, 69, 74, 75, 76, 77, 78, 79, 80, 81]}, "명지대": {"2027": [2, 3, 4], "2026": [28, 29, 33, 34, 35, 37]}, "부산대": {"2027": [1, 2, 3, 4, 5]}, "서울과학기술대": {"2027": [4, 5], "2026": [31]}, "서울시립대": {"2027": [1, 2, 3]}, "세종대": {"2027": [2], "2026": [15, 17]}, "숭실대": {"2027": [1, 2, 4], "2026": [23, 24, 28, 29, 32, 39]}, "연세대": {"2027": [3]}, "인하대": {"2027": [2, 3, 5, 6, 7, 11, 12, 13, 14], "2026": [8, 9, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 27]}, "중앙대": {"2027": [1, 2, 3, 6, 7, 8, 10, 12, 13, 14, 15, 16], "2026": [26, 28, 33, 35, 36, 37, 39, 40, 41, 42, 43, 46, 52, 53, 54, 55]}, "한국기술교육대": {"2027": [2, 12, 24, 26], "2026": [23, 29, 36, 39]}, "한국외국어대": {"2027": [1, 6, 7, 8, 9]}, "가톨릭대": {"2026": [35, 47]}, "건국대": {"2026": [15, 16, 31, 32, 34]}, "광운대": {"2026": [30, 35]}, "동덕여대": {"2026": [4]}, "서울대": {"2026": [19, 20, 22, 51]}, "서울여대": {"2026": [15, 16, 18, 19, 20, 21, 22, 24, 34, 35]}, "성신여대": {"2026": [33, 34, 36, 41, 43, 45, 57, 65, 67, 75, 76], "2027": [4, 6]}, "이화여자대": {"2026": [9, 10, 11, 12, 13, 14, 16, 17], "2027": [4, 5]}, "인천대": {"2026": [19, 20, 21, 31]}, "한양대(에리카)": {"2026": [19, 25, 30, 42, 44]}, "경북대": {"2026": [23, 24]}, "한양대": {"2026": [10, 11, 13, 32, 36]}}, "진로역량·전공적합": {"강원대": {"2027": [2, 4, 6, 7, 8]}, "경기대": {"2027": [9]}, "경희대": {"2027": [3, 7, 9, 10], "2026": [9, 12, 13, 15, 17, 20, 21, 24, 26, 29, 34, 35]}, "국민대": {"2027": [2, 4], "2026": [11, 12, 18, 19, 23]}, "단국대": {"2027": [1, 3], "2026": [3, 13, 22, 24, 31, 32, 34, 39, 45]}, "동국대": {"2027": [2, 14, 19, 20, 22, 23, 24], "2026": [19, 20, 23, 26, 28, 29, 30, 38, 39, 40, 41, 42, 43, 44, 48, 50, 51, 56, 57, 58, 59, 60, 62, 71]}, "명지대": {"2027": [2], "2026": [16, 24, 29, 37, 40, 41, 42, 43, 44]}, "부산대": {"2027": [1, 3, 4]}, "서울과학기술대": {"2027": [4], "2026": [36, 45, 49, 52, 53]}, "서울시립대": {"2027": [1, 2]}, "세종대": {"2027": [2], "2026": [14, 15, 17, 18, 20, 21, 22, 23, 28, 29, 32]}, "숭실대": {"2027": [5, 7, 8, 9], "2026": [21, 22, 24, 28, 44]}, "연세대": {"2027": [2]}, "중앙대": {"2027": [6, 7, 8, 12, 14], "2026": [4, 14, 15, 20, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 51]}, "한국기술교육대": {"2027": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28], "2026": [8, 10, 25, 29, 33, 36, 39, 41]}, "한국외국어대": {"2027": [6, 9]}, "한양대(에리카)": {"2027": [3, 4], "2026": [12, 19, 20, 21, 25, 26, 30, 36, 37, 38, 56]}, "가톨릭대": {"2026": [24, 25, 34, 35, 37, 61, 63, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 101, 103, 105, 107, 109, 111, 113, 115, 117, 119, 121, 123, 125, 127, 129, 131, 133, 135, 137, 139, 141, 143, 145, 147, 163]}, "건국대": {"2026": [14, 15, 16, 17, 33, 39]}, "광운대": {"2026": [16, 17, 18, 32, 34, 40]}, "덕성여대": {"2026": [7, 22]}, "동덕여대": {"2026": [4, 5]}, "서울대": {"2026": [21, 22, 52, 53, 54, 57, 66, 67]}, "서울여대": {"2026": [13, 15, 17, 18, 19, 20, 21, 22, 24, 25, 29, 30, 35, 38, 43, 45]}, "성신여대": {"2026": [15, 24, 25, 26, 27, 28, 41, 43, 45, 46, 47, 48, 49, 53, 54, 55, 56, 57, 58, 59, 65, 67, 70, 71, 73, 76, 83, 84, 85], "2027": [3, 5, 6, 8]}, "이화여자대": {"2026": [9, 10, 12, 19, 20]}, "인천대": {"2026": [14, 15, 18, 19, 22, 30, 31]}, "인하대": {"2026": [19]}, "전남대": {"2026": [5, 11]}, "경북대": {"2026": [10, 22, 23, 26]}, "한양대": {"2026": [13, 32]}}, "공동체역량·인성": {"강원대": {"2027": [1, 2, 5, 8, 9]}, "경기대": {"2027": [12, 13]}, "경희대": {"2027": [17, 18, 19, 20], "2026": [6, 9, 10, 12, 13, 26, 27, 28, 32, 33]}, "국민대": {"2027": [2, 4], "2026": [18, 19, 27, 28, 29, 30, 35, 36, 39, 40, 41, 46]}, "단국대": {"2027": [2, 3], "2026": [19, 22, 24, 30, 34, 37]}, "동국대": {"2027": [2, 4, 5, 6, 7, 9, 11, 13, 14, 15, 16, 23, 24, 26, 27, 31, 33], "2026": [19, 20, 23, 25, 36, 42, 47, 48, 49, 52, 59, 60, 63, 65, 66, 67, 69, 71, 77, 81]}, "명지대": {"2027": [2, 4], "2026": [10, 17, 24, 27, 30, 31, 36, 38, 40]}, "부산대": {"2027": [4, 5]}, "서울시립대": {"2027": [1, 4, 5]}, "세종대": {"2027": [1, 2], "2026": [13, 14, 15, 16, 17, 18, 21, 25, 29]}, "숭실대": {"2027": [5, 7, 8, 9], "2026": [21, 25, 35]}, "연세대": {"2027": [1, 2]}, "인하대": {"2027": [8, 9, 10, 11, 12, 13, 14], "2026": [8, 9, 11, 12, 15, 16, 19, 22]}, "중앙대": {"2027": [4, 8, 11, 14], "2026": [20, 21, 25, 26, 27, 35, 37, 39, 40, 41, 42, 44]}, "한국기술교육대": {"2027": [24], "2026": [8, 9]}, "한국외국어대": {"2027": [2, 5, 9]}, "한양대(에리카)": {"2027": [4], "2026": [14, 16, 17, 19, 20, 27, 40, 41, 45]}, "가톨릭대": {"2026": [34, 36, 37, 140, 144, 145]}, "건국대": {"2026": [15, 16, 17]}, "광운대": {"2026": [16, 17, 18, 30, 36]}, "덕성여대": {"2026": [10, 14, 15, 17, 22]}, "동덕여대": {"2026": [4, 5]}, "서울대": {"2026": [9, 12, 18, 21, 22, 31, 42, 43, 58, 61]}, "서울여대": {"2026": [13, 14, 15, 17, 21, 22, 24, 25, 26, 27, 31, 32, 36, 38, 39]}, "성신여대": {"2026": [21, 22, 24, 25, 26, 27, 28, 40, 43, 48, 49, 52, 53, 54, 55, 59, 72], "2027": [1, 2, 3, 4, 8]}, "이화여자대": {"2026": [9, 10], "2027": [3, 6, 7]}, "인천대": {"2026": [15, 17, 22, 29]}, "전남대": {"2026": [6, 11, 19]}, "서울과학기술대": {"2026": [36, 37, 46, 52]}, "경북대": {"2026": [12, 13, 14]}, "한양대": {"2026": [10, 11, 13, 33]}}, "창체·동아리": {"강원대": {"2027": [2, 3, 4, 5]}, "경기대": {"2027": [7, 8, 10, 11, 12]}, "경희대": {"2027": [1, 4, 5, 8, 11, 14, 15, 18, 20], "2026": [14, 16, 19, 22, 24, 28]}, "국민대": {"2027": [1, 2, 3, 4], "2026": [40, 41]}, "단국대": {"2027": [1, 2, 3], "2026": [32, 33]}, "동국대": {"2027": [1, 2, 4, 6, 12, 13, 14, 15, 16, 17, 18, 19, 30, 31, 32, 33], "2026": [32, 42, 46, 48, 49, 50, 51, 52, 53, 54, 55, 66, 67, 68, 69, 71, 74, 75, 76, 77, 78, 79, 80, 81, 82]}, "명지대": {"2027": [1, 3], "2026": [18, 28, 29, 30, 33, 35, 36, 37, 38]}, "부산대": {"2027": [1, 2, 4, 5]}, "서울과학기술대": {"2027": [2, 3], "2026": [30, 31, 39, 40, 41, 43, 44]}, "서울시립대": {"2027": [1, 3, 4, 5]}, "세종대": {"2027": [1, 2], "2026": [16, 17, 21, 23]}, "숭실대": {"2027": [1, 2, 3, 4], "2026": [23]}, "연세대": {"2027": [1, 2]}, "인하대": {"2027": [7, 10, 11, 13, 14], "2026": [11, 14, 17, 26, 27]}, "중앙대": {"2027": [3, 8, 12], "2026": [27, 35, 39]}, "한국기술교육대": {"2027": [12, 16, 20, 22], "2026": [10, 39]}, "한국외국어대": {"2027": [1, 2, 4, 5]}, "한양대(에리카)": {"2027": [4], "2026": [20, 21]}, "가톨릭대": {"2026": [35, 45]}, "건국대": {"2026": [16]}, "덕성여대": {"2026": [13]}, "서울대": {"2026": [20, 21, 22, 58, 68]}, "서울여대": {"2026": [15, 16, 17, 20, 24, 28, 29, 30, 31, 33, 35, 36]}, "성신여대": {"2026": [32, 34, 36, 37, 41, 43, 45, 53, 54, 55, 56], "2027": [2, 3, 4]}, "이화여자대": {"2026": [11, 12, 13, 14, 16, 17]}, "인천대": {"2026": [18, 19, 20, 21, 22, 28]}, "경북대": {"2026": [15, 23]}, "한양대": {"2026": [10, 32]}}, "독서": {"강원대": {"2027": [5]}, "경희대": {"2027": [11], "2026": [16]}, "동국대": {"2027": [32], "2026": [27, 34]}, "중앙대": {"2027": [16], "2026": [34, 36]}, "가톨릭대": {"2026": [51]}, "명지대": {"2026": [37]}, "숭실대": {"2026": [44]}, "인천대": {"2026": [19]}, "인하대": {"2026": [27]}}, "행동특성 및 종합의견": {"강원대": {"2027": [9]}, "경기대": {"2027": [13]}, "경희대": {"2027": [17, 18, 19], "2026": [26, 27]}, "국민대": {"2027": [2, 4], "2026": [42]}, "단국대": {"2027": [3]}, "동국대": {"2027": [16, 26, 27, 31, 33], "2026": [42, 43, 52, 62, 63, 67, 69, 74, 77, 81, 82]}, "명지대": {"2027": [2, 4], "2026": [36]}, "부산대": {"2027": [5]}, "서울과학기술대": {"2027": [5]}, "서울시립대": {"2027": [1]}, "세종대": {"2027": [2], "2026": [17, 21]}, "연세대": {"2027": [3]}, "한국외국어대": {"2027": [9]}, "광운대": {"2026": [17]}, "서울대": {"2026": [20, 21, 22]}, "서울여대": {"2026": [15, 21]}, "성신여대": {"2026": [41], "2027": [8]}, "인천대": {"2026": [19, 21]}, "인하대": {"2026": [11, 22]}, "중앙대": {"2026": [28]}, "한국기술교육대": {"2026": [10]}, "한양대": {"2026": [10, 33]}}, "출결": {"강원대": {"2027": [1]}, "경희대": {"2027": [20], "2026": [27]}, "국민대": {"2027": [1, 3, 4], "2026": [40]}, "단국대": {"2027": [1, 3]}, "동국대": {"2027": [10, 11, 30, 32], "2026": [19, 23, 42, 46, 47, 66, 68, 79, 82]}, "명지대": {"2027": [2, 4], "2026": [6, 24, 30, 36, 38]}, "부산대": {"2027": [4]}, "서울과학기술대": {"2027": [1], "2026": [42]}, "세종대": {"2027": [1], "2026": [15, 16, 21]}, "숭실대": {"2027": [7, 8, 9]}, "연세대": {"2027": [1]}, "한국외국어대": {"2027": [1]}, "한양대(에리카)": {"2027": [4], "2026": [19, 27]}, "가톨릭대": {"2026": [36]}, "건국대": {"2026": [7]}, "서울대": {"2026": [22]}, "서울여대": {"2026": [14]}, "성신여대": {"2026": [8, 14, 52], "2027": [1]}, "이화여자대": {"2026": [9, 11, 12, 13, 16, 17]}, "인천대": {"2026": [17]}, "인하대": {"2026": [9, 11]}, "중앙대": {"2026": [14, 27]}, "한국기술교육대": {"2026": [10]}, "한양대": {"2026": [10]}}, "면접": {"서울과학기술대": {"2027": [3], "2026": [3, 6, 51, 52, 54, 55, 58]}, "숭실대": {"2027": [6], "2026": [2, 14, 15, 16, 17, 19, 27, 30, 37, 39, 44]}, "가톨릭대": {"2026": [26, 30, 36, 37]}, "건국대": {"2026": [17, 35, 39]}, "경희대": {"2026": [32, 33]}, "광운대": {"2026": [6, 7, 11, 18, 33, 35, 37]}, "국민대": {"2026": [14, 17, 18, 19, 44]}, "덕성여대": {"2026": [3, 7, 10, 11, 12, 13, 14, 17, 18]}, "동국대": {"2026": [17, 19, 21]}, "동덕여대": {"2026": [4, 5]}, "명지대": {"2026": [2, 7, 17, 31]}, "서울대": {"2026": [25, 26, 27, 28, 29, 30, 31, 32, 48]}, "서울여대": {"2026": [4, 37, 38, 39, 40, 43, 45, 50]}, "성신여대": {"2026": [22, 24, 28, 49, 84, 85]}, "세종대": {"2026": [15, 18, 19, 22, 24, 26, 30, 31]}, "이화여자대": {"2026": [19]}, "인천대": {"2026": [13, 15, 34]}, "인하대": {"2026": [2, 6, 10, 18, 20, 23, 24]}, "중앙대": {"2026": [6, 24, 43, 44, 45, 46, 47]}, "한양대(에리카)": {"2026": [20]}, "단국대": {"2026": [15, 25, 26, 27, 35]}, "경북대": {"2026": [13]}, "한양대": {"2026": [2, 16, 17]}}, "평가방법·절차": {"국민대": {"2027": [1], "2026": [5, 14, 15, 16, 17, 18, 19, 41, 44]}, "동국대": {"2027": [4, 8, 20], "2026": [19, 20, 22, 23, 26, 29, 38, 39, 42, 45, 56, 73]}, "부산대": {"2027": [1, 2, 3, 4, 5]}, "서울과학기술대": {"2027": [4], "2026": [3, 6, 11, 35, 36, 38, 40, 48, 49, 54]}, "서울시립대": {"2027": [1, 5]}, "세종대": {"2027": [1], "2026": [11, 13, 14, 15, 16, 18, 19, 20, 22]}, "숭실대": {"2027": [5, 6], "2026": [2, 13, 14, 15, 16, 17, 20, 22, 23, 24, 26]}, "연세대": {"2027": [1, 2]}, "인하대": {"2027": [1, 4, 5, 11], "2026": [11, 13, 20, 23, 24]}, "중앙대": {"2027": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], "2026": [6, 8, 20, 21, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 36, 38, 40, 42, 44, 46, 47, 57]}, "한양대(에리카)": {"2027": [1, 4], "2026": [12, 14, 15, 16, 17, 19, 20, 27]}, "가톨릭대": {"2026": [34, 36, 37]}, "건국대": {"2026": [3, 12, 13, 14, 17, 25, 29, 42]}, "경희대": {"2026": [3, 7, 9, 11, 12, 32, 33]}, "광운대": {"2026": [7, 20, 40]}, "덕성여대": {"2026": [3, 4, 10, 11, 12, 13, 14, 15, 16, 17]}, "동덕여대": {"2026": [4]}, "명지대": {"2026": [2, 3, 24, 27, 31, 32, 40]}, "서울대": {"2026": [13, 18, 19, 21, 22, 23, 24, 31, 39]}, "서울여대": {"2026": [5, 12, 13, 17, 21, 23, 25, 27, 31, 35, 38, 40, 48, 50]}, "성신여대": {"2026": [3, 9, 11, 15, 17, 18, 19, 21, 22, 23, 24, 25, 27, 28, 29, 33, 35, 37, 39, 40, 41, 42, 43, 45, 46, 47, 49, 53, 55, 57, 59, 61, 65, 67, 69, 71, 73, 75, 77, 79, 83, 85]}, "이화여자대": {"2026": [7, 8]}, "인천대": {"2026": [8, 10, 13, 14, 15, 17, 18, 20, 22, 23]}, "전남대": {"2026": [6, 7, 13]}, "단국대": {"2026": [6, 12, 13, 17, 22, 26]}, "한국기술교육대": {"2026": [8, 9]}, "한양대": {"2026": [14, 33]}}, "서류·학생부 작성": {"동국대": {"2027": [10], "2026": [23, 46, 52]}, "서울과학기술대": {"2027": [3], "2026": [39, 41, 44]}, "숭실대": {"2027": [5, 6], "2026": [20, 26]}, "연세대": {"2027": [1]}, "경희대": {"2026": [34]}, "덕성여대": {"2026": [13]}, "세종대": {"2026": [22]}, "인천대": {"2026": [18, 19]}, "인하대": {"2026": [24]}, "한양대(에리카)": {"2026": [12]}}}};
+const LV=['미흡','보통','우수','탁월'];
+const YEARS=['2027','2026'];
+const SHORT={'학업역량·성취도':'학업','탐구력·세특':'탐구','진로역량·전공적합':'진로',
+ '공동체역량·인성':'공동체','창체·동아리':'창체','독서':'독서','행동특성 및 종합의견':'행특',
+ '출결':'출결','면접':'면접','평가방법·절차':'평가법','서류·학생부 작성':'서류'};
+
+const UNIS=Object.keys(DATA.unis||{});
+const key=(u,y,p)=>u+'|'+y+'|'+p;
+const slugOf=(u,y)=>((DATA.unis[u]||{})[y]||{}).slug||'';
+const pagesOf=(u,y)=>((DATA.unis[u]||{})[y]||{}).pages||0;
+const hasYear=(u,y)=>!!((DATA.unis[u]||{})[y]);
+const imgSrc=(u,y,p)=>'img/'+y+'-'+slugOf(u,y)+'-'+p+'.webp';
+const thSrc=(u,y,p)=>'thumb/'+y+'-'+slugOf(u,y)+'-'+p+'.webp';
+
+const TAGS={},CASEAT={};
+for(const t in (DATA.topics||{}))
+  for(const u in DATA.topics[t])
+    for(const y in DATA.topics[t][u])
+      DATA.topics[t][u][y].forEach(p=>{(TAGS[key(u,y,p)]=TAGS[key(u,y,p)]||[]).push(SHORT[t]||t);});
+(DATA.cases||[]).forEach(c=>{const k=key(c.uni,c.year,c.page);(CASEAT[k]=CASEAT[k]||[]).push(c.dept);});
+
+/* ── history-aware navigation ── */
+let curTab='rub';
+function tab(id,fromPop){
+  curTab=id;
+  document.querySelectorAll('nav button').forEach(x=>x.setAttribute('aria-selected',x.dataset.t===id));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id===id));
+  document.body.dataset.tab=id;
+  if(!fromPop){history.pushState({tab:id},'');window.scrollTo({top:0});}
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>tab(b.dataset.t));
+
+/* ── viewer ── */
+let vlist=[],vidx=0,vPushed=false;
+const vw=document.getElementById('vw'),stage=document.getElementById('vwstage');
+function open_(list,i){
+  if(!list||!list.length)return;
+  vlist=list;vidx=Math.max(0,i);vw.classList.add('on');document.body.style.overflow='hidden';
+  if(!vPushed){history.pushState({vw:1},'');vPushed=true;}
+  draw();
+}
+function draw(){
+  const {uni,year,page}=vlist[vidx];
+  document.getElementById('vwuni').textContent=uni;
+  document.getElementById('vwpg').textContent=year+'학년도 · p.'+page+'  ·  '+(vidx+1)+'/'+vlist.length;
+  document.getElementById('vwprev').disabled=vidx===0;
+  document.getElementById('vwnext').disabled=vidx===vlist.length-1;
+  const k=key(uni,year,page);
+  document.getElementById('vwtags').innerHTML=
+    [...(CASEAT[k]||[]).map(d=>'<span class="tag case">사례 '+d+'</span>'),
+     ...(TAGS[k]||[]).map(t=>'<span class="tag">'+t+'</span>')].join('');
+  stage.innerHTML='';
+  const im=new Image();im.src=imgSrc(uni,year,page);im.alt=uni+' '+year+'학년도 '+page+'면';
+  im.onclick=()=>im.classList.toggle('zoom');
+  im.onerror=()=>{stage.innerHTML='<div class="vwfail">지면을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.</div>';};
+  stage.appendChild(im);stage.scrollTop=0;stage.scrollLeft=0;
+  if(vidx+1<vlist.length){const nx=vlist[vidx+1];new Image().src=imgSrc(nx.uni,nx.year,nx.page);}
+}
+function closeViewer(fromPop){
+  vw.classList.remove('on');document.body.style.overflow='';
+  if(vPushed&&!fromPop){vPushed=false;history.back();}else{vPushed=false;}
+}
+const step=d=>{const n=vidx+d;if(n>=0&&n<vlist.length){vidx=n;draw();}};
+document.getElementById('vwclose').onclick=()=>closeViewer(false);
+document.getElementById('vwprev').onclick=()=>step(-1);
+document.getElementById('vwnext').onclick=()=>step(1);
+vw.onclick=e=>{if(e.target===vw||e.target===stage)closeViewer(false);};
+document.addEventListener('keydown',e=>{
+  if(!vw.classList.contains('on'))return;
+  if(e.key==='Escape')closeViewer(false);
+  if(e.key==='ArrowLeft')step(-1);
+  if(e.key==='ArrowRight')step(1);});
+let tx=0,ty=0;
+stage.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+stage.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&!stage.querySelector('img.zoom'))step(dx>0?-1:1);},{passive:true});
+
+window.addEventListener('popstate',e=>{
+  if(vw.classList.contains('on')){closeViewer(true);return;}
+  const st=e.state||{};
+  if(st.tab)tab(st.tab,true);else tab('rub',true);
+});
+history.replaceState({tab:'rub'},'');
+
+/* ── year selector helper ── */
+function yrbar(el,get,set){
+  const opts=[['','전체'],['2027','2027학년도'],['2026','2026학년도']];
+  el.innerHTML=opts.map(([v,l])=>'<button data-y="'+v+'" aria-pressed="'+(get()===v)+'">'+l+'</button>').join('');
+  el.onclick=ev=>{const b=ev.target.closest('button');if(!b)return;set(b.dataset.y);
+    el.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));};
+}
+
+/* ── topic index ── */
+const topics=DATA.topics||{};const tk=Object.keys(topics);let tf=tk[0],tYear='';
+document.getElementById('tfilters').innerHTML=tk.map(t=>
+  '<button class="chip" data-t="'+t+'" aria-pressed="'+(t===tf)+'">'+t+'</button>').join('');
+document.getElementById('tfilters').onclick=e=>{
+  const b=e.target.closest('.chip');if(!b)return;tf=b.dataset.t;
+  document.querySelectorAll('#tfilters .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));drawTopic();};
+yrbar(document.getElementById('tyr'),()=>tYear,v=>{tYear=v;drawTopic();});
+function topicFlat(t,y){
+  const d=topics[t]||{},out=[];
+  Object.keys(d).sort((a,b)=>a.localeCompare(b,'ko')).forEach(u=>
+    YEARS.forEach(yy=>{if((!y||y===yy)&&d[u][yy])d[u][yy].forEach(p=>out.push({uni:u,year:yy,page:p}));}));
+  return out;
+}
+function drawTopic(){
+  const d=topics[tf]||{};
+  const rows=[];
+  Object.keys(d).forEach(u=>YEARS.forEach(y=>{
+    if((!tYear||tYear===y)&&d[u][y])rows.push([u,y,d[u][y]]);}));
+  rows.sort((a,b)=>b[2].length-a[2].length||a[0].localeCompare(b[0],'ko'));
+  const flat=topicFlat(tf,tYear);
+  document.getElementById('tcount').textContent=
+    rows.length?rows.length+'개 자료 · '+flat.length+'면':'';
+  document.getElementById('toprows').innerHTML=rows.length?rows.map(([u,y,ps])=>
+    '<div class="row"><span class="u">'+u+'</span><span class="y">'+y+'</span><span class="pglist">'+
+    ps.map(p=>'<button class="pgbtn" data-u="'+u+'" data-y="'+y+'" data-p="'+p+'">p.'+p+'</button>').join('')+
+    '</span></div>').join(''):'<div class="empty">색인된 지면이 없습니다</div>';
+}
+document.getElementById('toprows').onclick=e=>{
+  const b=e.target.closest('.pgbtn');if(!b)return;
+  const flat=topicFlat(tf,tYear);
+  open_(flat,flat.findIndex(x=>x.uni===b.dataset.u&&x.year===b.dataset.y&&x.page===+b.dataset.p));};
+drawTopic();
+
+/* ── case index ── */
+const cases=DATA.cases||[];
+const kyes=['전체',...[...new Set(cases.map(c=>c.kye))]];
+let kf='전체',qs='',cYear='';
+document.getElementById('kfilters').innerHTML=kyes.map(k=>{
+  const n=k==='전체'?cases.length:cases.filter(c=>c.kye===k).length;
+  return '<button class="chip" data-k="'+k+'" aria-pressed="'+(k==='전체')+'">'+k+' '+n+'</button>';}).join('');
+document.getElementById('kfilters').onclick=e=>{
+  const b=e.target.closest('.chip');if(!b)return;kf=b.dataset.k;
+  document.querySelectorAll('#kfilters .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));drawCases();};
+document.getElementById('q').oninput=e=>{qs=e.target.value.trim();drawCases();};
+yrbar(document.getElementById('cyr'),()=>cYear,v=>{cYear=v;drawCases();});
+let cshown=[];
+function drawCases(){
+  cshown=cases.filter(c=>(kf==='전체'||c.kye===kf)&&(!cYear||c.year===cYear)&&
+      (!qs||c.dept.includes(qs)||c.uni.includes(qs)))
+    .sort((a,b)=>a.uni.localeCompare(b.uni,'ko')||a.year.localeCompare(b.year)||a.page-b.page);
+  document.getElementById('ccount').textContent=cshown.length+'건';
+  document.getElementById('caserows').innerHTML=cshown.length?cshown.map((c,i)=>
+    '<button class="row" data-i="'+i+'"><span class="u">'+c.uni+'</span><span class="y">'+c.year+
+    '</span><span class="k">'+c.kye+'</span><span class="d">'+c.dept+'</span><span class="p">p.'+c.page+'</span></button>').join('')
+    :'<div class="empty">해당하는 사례가 없습니다</div>';
+}
+document.getElementById('caserows').onclick=e=>{
+  const b=e.target.closest('[data-i]');if(!b)return;
+  open_(cshown.map(c=>({uni:c.uni,year:c.year,page:c.page})),+b.dataset.i);};
+drawCases();
+
+/* ── university browser ── */
+let curU=UNIS[0],uYear='';
+const uBoth=UNIS.filter(u=>hasYear(u,'2027')&&hasYear(u,'2026')).length;
+document.getElementById('ucount').innerHTML='수록 대학 '+UNIS.length+'곳<span>2개년 모두 수록 '+uBoth+'곳</span>';
+function chipHTML(u){
+  const ys=YEARS.filter(y=>hasYear(u,y));
+  return '<button class="chip'+(ys.length>1?' two':'')+'" data-u="'+u+'" aria-pressed="'+(u===curU)+
+    '">'+u+'<span class="yrs">'+ys.map(y=>y.slice(2)).join('·')+'</span></button>';
+}
+function drawChips(f){
+  const list=UNIS.filter(u=>!f||u.includes(f));
+  document.getElementById('unichips').innerHTML=list.map(chipHTML).join('');
+  document.getElementById('uempty').hidden=list.length>0;
+}
+drawChips('');
+document.getElementById('ufind').oninput=e=>drawChips(e.target.value.trim());
+document.getElementById('unichips').onclick=e=>{
+  const b=e.target.closest('.chip');if(!b)return;curU=b.dataset.u;
+  document.querySelectorAll('#unichips .chip').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  drawUni();document.getElementById('unibar').scrollIntoView({block:'start',behavior:'smooth'});};
+yrbar(document.getElementById('uyr'),()=>uYear,v=>{uYear=v;drawUni();});
+function uniYears(){return YEARS.filter(y=>hasYear(curU,y)&&(!uYear||uYear===y));}
+function uniFlat(){const o=[];uniYears().forEach(y=>{for(let p=1;p<=pagesOf(curU,y);p++)o.push({uni:curU,year:y,page:p});});return o;}
+function drawUni(){
+  const ys=uniYears();
+  const tot=ys.reduce((a,y)=>a+pagesOf(curU,y),0);
+  const cs=cases.filter(c=>c.uni===curU&&ys.includes(c.year));
+  const have=YEARS.filter(y=>hasYear(curU,y));
+  document.getElementById('unibar').innerHTML='<b>'+curU+'</b><span>'+
+    have.map(y=>y+'학년도 '+pagesOf(curU,y)+'면').join(' · ')+' · 사례 '+cs.length+'건</span>';
+  const tj=[];
+  Object.keys(topics).forEach(t=>{
+    const ps=[];ys.forEach(y=>{const a=(topics[t][curU]||{})[y];if(a)a.forEach(p=>ps.push([y,p]));});
+    if(ps.length)tj.push([t,ps]);});
+  document.getElementById('unitopics').innerHTML= tj.length
+    ? '<div class="sect">이 대학이 설명한 평가 항목 — 눌러서 바로 확인</div><div class="jump">'+
+      tj.map(([t,ps])=>'<span class="jl">'+(SHORT[t]||t)+'</span><span class="jp">'+
+        ps.map(([y,p])=>'<button class="pgbtn" data-y="'+y+'" data-p="'+p+'">'+
+          (have.length>1?y.slice(2)+'·':'')+'p.'+p+'</button>').join('')+'</span>').join('')+'</div>'
+    : '';
+  document.getElementById('unicases').innerHTML= cs.length
+    ? '<div class="sect">수록된 합격 사례</div><div class="rows">'+cs.map(c=>
+      '<button class="row" data-y="'+c.year+'" data-p="'+c.page+'"><span class="y">'+c.year+
+      '</span><span class="k">'+c.kye+'</span><span class="d">'+c.dept+'</span><span class="p">p.'+c.page+'</span></button>').join('')+'</div>'
+    : '';
+  document.getElementById('unigrid').innerHTML=uniFlat().map(({year,page})=>{
+    const k=key(curU,year,page);
+    const t=[...(CASEAT[k]||[]).slice(0,1).map(d=>'<span class="tag case">'+d+'</span>'),
+             ...(TAGS[k]||[]).slice(0,2).map(x=>'<span class="tag">'+x+'</span>')];
+    return '<button class="th" data-y="'+year+'" data-p="'+page+'"><img loading="lazy" src="'+
+      thSrc(curU,year,page)+'" alt="'+curU+' '+year+' '+page+'면"><div class="cap"><span class="pg">'+
+      (have.length>1?year.slice(2)+'·':'')+'p.'+page+'</span>'+t.join('')+'</div></button>';}).join('');
+}
+document.getElementById('uni').addEventListener('click',e=>{
+  const b=e.target.closest('[data-p]');if(!b)return;
+  const flat=uniFlat();
+  open_(flat,flat.findIndex(x=>x.year===b.dataset.y&&x.page===+b.dataset.p));});
+drawUni();
+
+/* ── rubric ── */
+const R=[
+{g:'학업역량',gi:0,items:[
+ {c:'A1',n:'학업성취도',tp:'학업역량·성취도',q:'주요교과 성적의 수준과 3년 추이는 어떤가?',
+  d:['하락세가 뚜렷하거나 계열 핵심 과목의 성취가 낮음','과목별 편차는 있으나 급격한 하락은 없음','전반적으로 안정적이고 계열 관련 교과가 평균보다 높음','상위 성취를 3년 유지했거나 뚜렷한 상승 곡선을 그림'],
+  ok:'학년별 성적 변화 자체가 근거가 되므로, 상승 구간에서 무엇을 바꿨는지 말할 수 있게 정리해 둘 것',
+  fix:'낮은 과목의 원인과 이후 회복 노력이 세특에 남아야 함. 성적표만으로는 설명되지 않음',
+  hi:'성적이 오른 학기에 공부 방식에서 무엇을 바꿨는지 말해 볼까?',
+  lo:'성적이 떨어진 시기에 어떤 어려움이 있었고 어떻게 대응했지?'},
+ {c:'A2',n:'학업태도',tp:'학업역량·성취도',q:'스스로 목표를 세우고 학습 방법을 조정한 흔적이 있는가?',
+  d:['태도 기술이 일반적 서술에 머물러 다른 학생과 구분되지 않음','성실하다는 평가는 있으나 자기주도성의 근거가 약함','수업 참여가 적극적이고 과제 수행이 충실하다는 기록이 있음','학습 방법을 스스로 점검하고 고친 기록이 여러 과목에 반복됨'],
+  ok:'자기주도성이 드러난 과목을 두세 개 골라 면접 답변의 축으로 삼을 것',
+  fix:'수업 중 질문·재도전·학습 계획 수정처럼 관찰 가능한 장면이 기록될 수 있게 만들어야 함',
+  hi:'스스로 계획을 세워 공부한 과목 하나를 예로 들어 볼까?',
+  lo:'수업에서 이해가 안 될 때 어떻게 해결했는지 구체적으로 말해 볼까?'},
+ {c:'A3',n:'탐구력',tp:'탐구력·세특',q:'궁금증이 실제 탐구로 이어지고 결과가 남아 있는가?',
+  d:['발표·조사 나열만 있고 사고 과정이 보이지 않음','탐구 활동은 있으나 주제 요약 수준에 그침','교과 내용을 넘어선 심화 탐구가 한두 과목에서 뚜렷함','질문에서 자료 조사, 검증, 새로운 질문으로 이어지는 연쇄가 보임'],
+  ok:'가장 깊이 들어간 탐구 하나를 골라 처음 질문과 마지막 질문을 대비시켜 설명하게 할 것',
+  fix:'주제를 넓히기보다 하나를 끝까지 파고들 것. 결론보다 막힌 지점과 해결 과정이 평가 대상임',
+  hi:'가장 오래 붙잡았던 탐구에서 처음 질문과 마지막 질문이 어떻게 달라졌지?',
+  lo:'발표를 준비하면서 스스로 찾아본 자료는 무엇이었지?'}]},
+{g:'진로역량',gi:1,items:[
+ {c:'B1',n:'전공 관련 교과 이수',tp:'진로역량·전공적합',q:'과목 선택이 지망 전공 쪽으로 일관되게 설계됐는가?',
+  d:['지망 전공과 과목 선택 사이의 연결이 보이지 않음','일부 핵심 과목이 빠졌으나 대체 이수 흔적은 있음','관련 과목을 충실히 이수했고 큰 공백이 없음','진로선택·전문교과까지 포함해 선택 이유가 설명되는 조합'],
+  ok:'과목을 왜 그렇게 골랐는지 한 문장으로 답할 수 있게 준비시킬 것',
+  fix:'남은 학기 과목 선택으로 보완 가능. 개설되지 않은 과목은 대체 활동으로 메운 근거를 남길 것',
+  hi:'이 과목들을 고른 이유를 한 문장으로 설명해 볼까?',
+  lo:'지망 전공과 관련해 듣지 못한 과목은 무엇으로 대신했지?'},
+ {c:'B2',n:'전공 관련 교과 성취',tp:'진로역량·전공적합',q:'전공 핵심 과목의 성취가 전체 평균과 비교해 어떤가?',
+  d:['핵심 과목에서 하락했거나 아예 이수하지 않음','핵심 과목 성취가 전체 평균보다 낮음','핵심 과목이 전체 평균과 비슷한 수준으로 유지됨','핵심 과목 성취가 전체 평균보다 뚜렷이 높음'],
+  ok:'전체 등급이 다소 낮아도 핵심 과목 강세는 설득력 있는 근거가 됨',
+  fix:'전체 평균보다 핵심 과목이 낮으면 지원 동기 자체를 의심받음. 우선순위를 여기에 둘 것',
+  hi:'전공 관련 과목에서 특히 잘한 이유가 뭐라고 생각해?',
+  lo:'전공 핵심 과목의 성적이 낮은 이유를 어떻게 설명하겠어?'},
+ {c:'B3',n:'진로 탐색 활동',tp:'창체·동아리',q:'동아리·자율·진로 활동이 하나의 관심사로 연결되는가?',
+  d:['활동이 단발적이고 진로와의 관계가 약함','활동은 많으나 서로 연결되지 않음','관심 분야가 일관되고 활동이 지속됨','3년 활동이 하나의 질문으로 이어지며 매년 깊이가 커짐'],
+  ok:'활동을 시간순이 아니라 하나의 질문이 깊어지는 순서로 재배열해 설명하게 할 것',
+  fix:'새 활동을 늘리기보다 기존 활동 사이의 연결 고리를 찾아 후속 탐구로 이을 것',
+  hi:'3년 활동을 하나의 흐름으로 이어서 말해 볼까?',
+  lo:'여러 활동 중 지망 전공과 가장 가까운 것 하나를 골라 이유를 말해 볼까?'}]},
+{g:'공동체역량',gi:2,items:[
+ {c:'C1',n:'협업과 소통',tp:'공동체역량·인성',q:'모둠에서 맡은 역할과 기여가 장면으로 남아 있는가?',
+  d:['협업 관련 기록을 찾기 어려움','협조적이라는 평가는 있으나 구체적 장면이 없음','모둠 활동에서 맡은 역할과 기여가 드러남','의견 차이를 조정하거나 역할을 재분배한 장면이 기록됨'],
+  ok:'갈등을 다룬 경험은 직책보다 강한 근거가 되므로 면접 대비 사례로 확보할 것',
+  fix:'"협력적이다" 같은 평가어가 아니라 무엇을 맡아 어떻게 했는지가 남아야 함',
+  hi:'모둠에서 의견이 갈렸을 때 어떻게 정리했지?',
+  lo:'모둠 활동에서 네가 맡았던 역할을 구체적으로 말해 볼까?'},
+ {c:'C2',n:'나눔과 배려',tp:'공동체역량·인성',q:'도움을 준 대상과 방식, 지속 기간이 구체적인가?',
+  d:['관련 기록이 없음','배려심이 있다는 서술만 있음','멘토링·봉사 등 배려 사례가 확인됨','도운 대상과 방식, 지속 기간이 구체적으로 남아 있음'],
+  ok:'횟수보다 지속성이 평가되므로 이어온 기간을 강조할 것',
+  fix:'일회성 봉사보다 학급 안에서 꾸준히 이어갈 수 있는 역할을 찾을 것',
+  hi:'누구를 어떻게 도왔고 얼마나 오래 이어갔지?',
+  lo:'학교에서 다른 사람을 도운 경험이 있다면 언제였지?'},
+ {c:'C3',n:'성실성과 규칙 준수',tp:'출결',q:'3년 출결과 학적사항에 확인할 사항이 있는가?',
+  d:['미인정 출결이 있거나 학적사항에 조치사항이 있음','질병 외 지각·결과가 반복됨','출결에 특이사항이 없음','출결이 완전하고 성실성에 대한 구체적 기록이 있음'],
+  ok:'별도 설명이 필요 없는 항목. 상담 시간을 다른 영역에 쓸 것',
+  fix:'출결은 사유가 기재되면 평가에서 감안되는 경우가 많음. 사유 기재 여부를 먼저 확인할 것',
+  hi:'3년 동안 자기 관리를 어떻게 했는지 말해 볼까?',
+  lo:'결석이나 지각이 있었던 시기의 사정을 설명할 수 있어?'},
+ {c:'C4',n:'리더십',tp:'공동체역량·인성',q:'맡은 역할로 무엇이 달라졌는지 기록되어 있는가?',
+  d:['관련 기록이 없음','직책은 있으나 활동 내용이 없음','임원·부장 등 역할을 맡아 책임을 수행함','직책 여부와 무관하게 무언가를 바꾼 사례가 기록됨'],
+  ok:'직책명이 아니라 바뀐 결과를 앞세워 설명하게 할 것',
+  fix:'임원이 아니어도 됨. 먼저 제안하고 끌고 간 경험이면 충분함',
+  hi:'네가 맡은 뒤로 무엇이 달라졌지?',
+  lo:'직책이 없어도 앞장서 본 경험이 있어?'}]}];
+const ITEMS=R.flatMap(g=>g.items);
+let marks={};
+const rub=document.getElementById('rubric');
+R.forEach(g=>{
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML='<div class="chead"><b>'+g.g+'</b><span>'+g.items.length+
+    '개 항목</span><span class="avg" data-avg="'+g.gi+'">—</span></div>';
+  g.items.forEach(it=>{
+    const d=document.createElement('div');d.className='item';
+    d.innerHTML='<div class="q"><span class="code">'+it.c+'</span><span class="qname">'+it.n+
+      '</span><button class="evb" data-ev="'+it.tp+'">근거 지면</button></div><div class="qtext">'+
+      it.q+'</div><div class="lv">'+
+      it.d.map((t,i)=>'<label data-i="'+it.c+'" data-v="'+(i+1)+'"><input type="radio" name="'+it.c+
+        '" value="'+(i+1)+'"><b>'+LV[i]+'</b>'+t+'</label>').join('')+'</div>';
+    c.appendChild(d);});
+  rub.appendChild(c);});
+const strip=document.getElementById('strip');
+ITEMS.forEach((it,n)=>{
+  if(n===3||n===6){const s=document.createElement('div');s.className='stripgap';strip.appendChild(s);}
+  const e=document.createElement('button');e.className='cell';e.dataset.i=it.c;e.textContent=it.c;
+  e.title=it.n;
+  e.onclick=()=>{if(curTab!=='rub')tab('rub');
+    document.querySelector('[data-i="'+it.c+'"]').scrollIntoView({block:'center',behavior:'smooth'});};
+  strip.appendChild(e);});
+rub.addEventListener('change',e=>{if(e.target.type==='radio'){marks[e.target.name]=+e.target.value;render();}});
+rub.addEventListener('click',e=>{
+  const b=e.target.closest('.evb');if(!b)return;
+  const g=document.getElementById('goal').value;
+  const flat=topicFlat(b.dataset.ev,'');
+  if(!flat.length)return stat('색인된 지면이 없습니다');
+  const i=g?Math.max(0,flat.findIndex(x=>x.uni===g)):0;
+  open_(flat,i);});
+
+function render(){
+  document.querySelectorAll('.lv label').forEach(l=>l.classList.toggle('sel',marks[l.dataset.i]===+l.dataset.v));
+  document.querySelectorAll('.cell').forEach(c=>{c.className='cell'+(marks[c.dataset.i]?' v'+marks[c.dataset.i]:'');});
+  R.forEach(g=>{const v=g.items.map(i=>marks[i.c]).filter(Boolean);
+    document.querySelector('[data-avg="'+g.gi+'"]').textContent=
+      v.length?v.length+'/'+g.items.length+' 표시 · 평균 '+(v.reduce((a,b)=>a+b,0)/v.length).toFixed(1):'—';});
+  document.getElementById('warnbox').innerHTML=marks.C3===1
+    ?'<div class="warn">출결·학적사항에 확인이 필요한 기록이 있습니다. 다른 항목보다 먼저 사실관계와 사유 기재 여부를 확인하세요.</div>':'';
+  document.getElementById('out').innerHTML=summary();
+}
+function summary(){
+  const done=ITEMS.filter(i=>marks[i.c]);
+  if(!done.length)return '<h3>진단 요약</h3><p>10개 항목을 표시하면 요약·면접 질문·학생 과제가 만들어집니다.</p>';
+  const st=done.filter(i=>marks[i.c]>=3),wk=done.filter(i=>marks[i.c]<=2).sort((a,b)=>marks[a.c]-marks[b.c]);
+  const COL=['#3B4C58','var(--l1)','var(--l2)','var(--l3)','var(--l4)'];
+  let h='<h3>진단 요약</h3><div class="bars">';
+  R.forEach(g=>{
+    const v=g.items.map(i=>marks[i.c]).filter(Boolean);
+    const a=v.length?v.reduce((x,y)=>x+y,0)/v.length:0;
+    h+='<div class="bar"><span>'+g.g+'</span><span class="tr"><span class="fl" style="width:'+
+      (a/4*100)+'%;background:'+COL[Math.round(a)]+'"></span></span><span class="vn">'+
+      (v.length?a.toFixed(1):'—')+'</span></div>';});
+  h+='</div>';
+  h+='<p><span class="lbl">표시</span> '+done.length+'/10개 · 평균 '+
+     (done.reduce((a,i)=>a+marks[i.c],0)/done.length).toFixed(1)+'단계</p>';
+  h+='<p><span class="lbl">강점</span> '+(st.length?st.map(i=>i.n).join(', '):'아직 없음')+'</p>';
+  h+='<p><span class="lbl">보완</span> '+(wk.length?wk.map(i=>i.n).join(', '):'없음')+'</p>';
+  const g0=document.getElementById('goal').value;
+  if(g0){
+    const cs=cases.filter(c=>c.uni===g0);
+    const yrs=YEARS.filter(y=>hasYear(g0,y));
+    h+='<p style="margin-top:13px"><span class="lbl">'+g0+'</span> '+
+       yrs.map(y=>y+'학년도').join(' · ')+' 수록 · 사례 '+cs.length+'건</p>';
+    if(cs.length)h+='<p>'+cs.map(c=>'<button class="pgbtn" data-gy="'+c.year+'" data-go="'+c.page+'">'+
+       c.dept+' '+c.year.slice(2)+'·p.'+c.page+'</button>').join(' ')+'</p>';
+  }
+  if(wk.length)h+='<p class="lbl" style="margin-top:13px">우선 조치 (낮은 순)</p><ul>'+
+    wk.slice(0,4).map(i=>'<li><b>'+i.n+'</b> — '+i.fix+'</li>').join('')+'</ul>';
+  if(st.length)h+='<p class="lbl" style="margin-top:13px">살릴 지점</p><ul>'+
+    st.slice(0,3).map(i=>'<li><b>'+i.n+'</b> — '+i.ok+'</li>').join('')+'</ul>';
+  const qs2=questions();
+  if(qs2.length)h+='<p class="lbl" style="margin-top:13px">지금 물어볼 질문</p><ul class="qa">'+
+    qs2.map(q=>'<li><span class="who">'+q.t+'</span>'+q.q+'</li>').join('')+'</ul>';
+  return h;
+}
+function questions(){
+  const out=[];
+  ITEMS.filter(i=>marks[i.c]&&marks[i.c]<=2).sort((a,b)=>marks[a.c]-marks[b.c])
+    .slice(0,4).forEach(i=>out.push({t:i.n+' · 사실 확인',q:i.lo}));
+  ITEMS.filter(i=>marks[i.c]>=3).slice(0,3).forEach(i=>out.push({t:i.n+' · 강점 심화',q:i.hi}));
+  return out;
+}
+function plain(){
+  const done=ITEMS.filter(i=>marks[i.c]);if(!done.length)return '';
+  const nm=document.getElementById('nm').value.trim(),g=document.getElementById('goal').value;
+  let t=(nm?nm+' · ':'')+'생기부 정성평가 요약'+(g?' · 지망 '+g:'')+'\n\n';
+  R.forEach(x=>{t+='['+x.g+']\n';x.items.forEach(i=>{t+='  '+i.n+': '+(marks[i.c]?LV[marks[i.c]-1]:'미표시')+'\n';});});
+  const wk=done.filter(i=>marks[i.c]<=2).sort((a,b)=>marks[a.c]-marks[b.c]);
+  if(wk.length){t+='\n[우선 보완]\n';wk.forEach(i=>t+='  · '+i.n+' — '+i.fix+'\n');}
+  const st=done.filter(i=>marks[i.c]>=3);
+  if(st.length){t+='\n[살릴 지점]\n';st.forEach(i=>t+='  · '+i.n+' — '+i.ok+'\n');}
+  const q2=questions();
+  if(q2.length){t+='\n[물어볼 질문]\n';q2.forEach(q=>t+='  · ('+q.t+') '+q.q+'\n');}
+  return t;
+}
+function plainStudent(){
+  const done=ITEMS.filter(i=>marks[i.c]);if(!done.length)return '';
+  const nm=document.getElementById('nm').value.trim(),g=document.getElementById('goal').value;
+  const wk=done.filter(i=>marks[i.c]<=2).sort((a,b)=>marks[a.c]-marks[b.c]);
+  const st=done.filter(i=>marks[i.c]>=3);
+  let t=(nm?nm+' 학생 ':'')+'다음 학기 준비 과제'+(g?' (지망 '+g+')':'')+'\n\n';
+  if(st.length){t+='■ 잘하고 있는 것 — 계속 이어가기\n';st.forEach(i=>t+='  · '+i.n+' : '+i.ok+'\n');t+='\n';}
+  if(wk.length){t+='■ 먼저 채워야 할 것\n';wk.forEach((i,n)=>t+='  '+(n+1)+'. '+i.n+' : '+i.fix+'\n');t+='\n';}
+  const q2=questions();
+  if(q2.length){t+='■ 스스로 답을 준비해 볼 질문\n';q2.forEach(q=>t+='  · '+q.q+'\n');}
+  return t;
+}
+let statT;
+function stat(m){const s=document.getElementById('status');
+  s.textContent=m;s.classList.add('on');clearTimeout(statT);
+  statT=setTimeout(()=>{s.classList.remove('on');},2800);}
+async function cp(t){if(!t)return stat('먼저 항목을 표시하세요');
+  try{await navigator.clipboard.writeText(t);stat('복사했습니다');}
+  catch(e){stat('복사 실패 — 인쇄를 이용하세요');}}
+document.getElementById('copy').onclick=()=>cp(plain());
+document.getElementById('copyst').onclick=()=>cp(plainStudent());
+document.getElementById('print').onclick=()=>window.print();
+document.getElementById('reset').onclick=()=>{marks={};
+  document.querySelectorAll('.lv input').forEach(r=>{r.checked=false;});
+  document.getElementById('nm').value='';goal.value='';goal.classList.remove('set');
+  savedSel.value='';render();stat('초기화했습니다');};
+document.getElementById('out').addEventListener('click',e=>{
+  const b=e.target.closest('[data-go]');if(!b)return;
+  const g=document.getElementById('goal').value,y=b.dataset.gy;
+  const flat=[];for(let p=1;p<=pagesOf(g,y);p++)flat.push({uni:g,year:y,page:p});
+  open_(flat,+b.dataset.go-1);});
+
+const goal=document.getElementById('goal');
+goal.innerHTML='<option value="">선택 안 함</option>'+UNIS.map(u=>'<option>'+u+'</option>').join('');
+goal.onchange=()=>{goal.classList.toggle('set',!!goal.value);render();};
+
+const savedSel=document.getElementById('saved');
+async function refreshSaved(){
+  let keys=[];
+  try{const l=await window.storage.list('sgb:');keys=(l&&l.keys)||[];}catch(e){}
+  savedSel.innerHTML='<option value="">'+(keys.length?'선택':'없음')+'</option>'+
+    keys.map(k=>'<option value="'+k+'">'+k.replace('sgb:','')+'</option>').join('');
+  savedSel.disabled=!keys.length;
+}
+document.getElementById('save').onclick=async()=>{
+  const nm=document.getElementById('nm').value.trim();
+  if(!nm)return stat('학생 이름을 입력하세요');
+  if(!Object.keys(marks).length)return stat('표시된 항목이 없습니다');
+  try{await window.storage.set('sgb:'+nm,JSON.stringify({marks:marks,goal:goal.value,at:Date.now()}));
+    stat("'"+nm+"' 저장됨");refreshSaved();}
+  catch(e){stat('이 환경에서는 저장할 수 없습니다');}};
+savedSel.onchange=async()=>{
+  const k=savedSel.value;if(!k)return;
+  try{const r=await window.storage.get(k);const v=JSON.parse(r.value);
+    marks=v.marks||{};goal.value=v.goal||'';goal.classList.toggle('set',!!goal.value);
+    document.getElementById('nm').value=k.replace('sgb:','');
+    document.querySelectorAll('.lv input').forEach(i=>{i.checked=marks[i.name]===+i.value;});
+    render();stat('불러왔습니다');}
+  catch(e){stat('불러올 수 없습니다');}};
+refreshSaved();
+render();
+</script>
+</body>
+</html>
